@@ -14,11 +14,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkeout
+        uses: actions/checkout@v3
+        
       - name: Run a one-line script
         run: echo Hello, world!
 
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+      - name: Configure AWS credentials
+        id: creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: Deploy Cloudformation
+        id: cf-deploy
+        uses: aws-actions/aws-cloudformation-github-deploy@master
+        with:
+          name: myStack
+          template: vpc.yaml
+          parameter-overrides: >-
+            VpcCIDR=10.0.0.0/16,
+            PublicSubnet1CIDR=10.0.0.0/24,
+            PublicSubnet2CIDR=10.0.1.0/24,
+            PrivateSubnet1CIDR=10.0.2.0/24,
+            PrivateSubnet2CIDR=10.0.3.0/24,
+            PrivateSubnet3CIDR=10.0.4.0/24,
+            PrivateSubnet4CIDR=10.0.5.0/24,
+            SSHLocation=0.0.0.0/0,
+            LambdaFuncName=Lambda_api-lambda-db,
+            RetentionInDays=14,
+            TrafficType=ALL
+
