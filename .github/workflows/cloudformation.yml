@@ -29,8 +29,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
       
-      - name: Deploy Cloudformation
-        id: cf-deploy
+      - name: Deploy Cloudformation Roles
+        id: cf-deployRoles
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         if: github.event.commits[0].message == 'roles'
         with:
@@ -48,6 +48,9 @@ jobs:
             LambdaFuncName=Lambda_api-lambda-db,
             RetentionInDays=14,
             TrafficType=ALL
+      - name: Deploy Cloudformation Resources
+        id: cf-deployResources
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
         if: github.event.commits[0].message == 'resources'
         with:
           name: myStackResorces
