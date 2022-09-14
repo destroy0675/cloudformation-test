@@ -32,7 +32,7 @@ jobs:
       - name: Deploy Cloudformation
         id: cf-deploy
         uses: aws-actions/aws-cloudformation-github-deploy@v1
-        if: github.event.push.commits.message == 'roles'
+        if: github.event.push.base.commits.message == 'roles'
         with:
           name: myStack
           template: vpc.yaml
