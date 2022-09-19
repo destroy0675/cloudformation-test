@@ -41,7 +41,8 @@ jobs:
       - uses: mdecoleman/cloudformation-changeset@v1
         with:
           method: create
-          stack_name: "myStack-Roles"
+          stack_name: "myStackRoles"
+          changeset_name: "myStack-Roles"
           template_file: vpc.yaml
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -61,7 +62,7 @@ jobs:
       - uses: mdecoleman/cloudformation-changeset@v1
         with:
           method: execute
-          stack_name: "myStack-Roles"
+          stack_name: "myStackRoles"
           changeset_name: "myStack-Roles"
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
