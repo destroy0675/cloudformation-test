@@ -36,8 +36,7 @@ jobs:
       #   with:
       #     name: myStackRoles
       #     template: vpc.yaml
-      # - name: Create change set
-      #   id: cf-changesetcreate
+
       - uses: mdecoleman/cloudformation-changeset@v1
         with:
           method: create
@@ -56,8 +55,6 @@ jobs:
       #     name: myStackResources
       #     template: vpc.yaml
 
-      # - name: Execute change set
-      #   id: cf-changesetexecute
       # - uses: mdecoleman/cloudformation-changeset@v1
       #   with:
       #     method: execute
