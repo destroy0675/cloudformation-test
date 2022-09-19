@@ -36,12 +36,12 @@ jobs:
       #   with:
       #     name: myStackRoles
       #     template: vpc.yaml
-      - name: Create change set
-        id: cf-changesetcreate
-        uses: mdecoleman/cloudformation-changeset@v1
+      # - name: Create change set
+      #   id: cf-changesetcreate
+      - uses: mdecoleman/cloudformation-changeset@v1
         with:
           method: create
-          stack_name: myStack-Roles
+          stack_name: "myStack-Roles"
           template_file: vpc.yaml
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -56,13 +56,13 @@ jobs:
       #     name: myStackResources
       #     template: vpc.yaml
 
-      - name: Execute change set
-        id: cf-changesetexecute
-        uses: mdecoleman/cloudformation-changeset@v1
+      # - name: Execute change set
+      #   id: cf-changesetexecute
+      - uses: mdecoleman/cloudformation-changeset@v1
         with:
           method: execute
-          stack_name: myStack-Roles
-          changeset_name: myStack-Roles
+          stack_name: "myStack-Roles"
+          changeset_name: "myStack-Roles"
           aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_REGION }}
