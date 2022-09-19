@@ -36,15 +36,17 @@ jobs:
       #   with:
       #     name: myStackRoles
       #     template: vpc.yaml
-    - uses: mdecoleman/cloudformation-changeset@v1
-      with:
-        method: create
-        stack_name: myStackRoles
-        template_file: vpc.yaml
-        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws_region: ${{ secrets.AWS_REGION }}
-        parameters: Runtime=nodejs8.10,Role=arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      - name: Create change set
+        id: cf-changesetcreate
+        uses: mdecoleman/cloudformation-changeset@v1
+        with:
+          method: create
+          stack_name: myStackRoles
+          template_file: vpc.yaml
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          parameters: Runtime=nodejs8.10,Role=arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 
       # - name: Deploy Cloudformation Resources
       #   id: cf-deployResources
@@ -54,7 +56,9 @@ jobs:
       #     name: myStackResources
       #     template: vpc.yaml
 
-      - uses: mdecoleman/cloudformation-changeset@v1
+      - name: Execute change set
+        id: cf-changesetexecute
+        uses: mdecoleman/cloudformation-changeset@v1
         with:
           method: execute
           stack_name: myStackRoles
