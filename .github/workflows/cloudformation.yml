@@ -23,7 +23,6 @@ jobs:
       - name: Configure AWS credentials
         id: creds
         uses: aws-actions/configure-aws-credentials@v1
-        # if: github.event.push.base.ref == 'master'
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -32,15 +31,16 @@ jobs:
       - name: Deploy Cloudformation Roles
         id: cf-deployRoles
         uses: aws-actions/aws-cloudformation-github-deploy@v1
-        if: github.event.commits[0].message == 'roles'
+        if: github.event.commits[0].message == 'resource-api'
         with:
           name: myStackRoles
           template: vpc.yaml
           no-fail-on-empty-changeset: "1"
-
+          parameter:
+      
       # - uses: mdecoleman/cloudformation-changeset@v1
       #   with:
-      #     method: create
+      #     method: createHi,
       #     stack_name: "myStackRoles"
       #     template_file: vpc.yaml
       #     aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
