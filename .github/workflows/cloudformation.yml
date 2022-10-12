@@ -21,33 +21,33 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }} 
 
-  # build:
-    
-  #   runs-on: ubuntu-latest
+  build:
+    needs: upload_templates
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkeout
-  #       uses: actions/checkout@v3
+    steps:
+      - name: Checkeout
+        uses: actions/checkout@v3
         
-  #     - name: Run a one-line script
-  #       run: echo Hello, world!
+      - name: Run a one-line script
+        run: echo Hello, world!
 
-  #     - name: Configure AWS credentials
-  #       id: creds
-  #       uses: aws-actions/configure-aws-credentials@v1
-  #       with:
-  #         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws-region: ${{ secrets.AWS_REGION }}
+      - name: Configure AWS credentials
+        id: creds
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
       
-  #     - name: Deploy Cloudformation Roles
-  #       id: cf-deployRoles
-  #       uses: aws-actions/aws-cloudformation-github-deploy@v1
-  #       if: github.event.commits[0].message == 'resource-api'
-  #       with:
-  #         name: myStackRoles
-  #         template: vpc.yaml
-  #         no-fail-on-empty-changeset: "1"
+      - name: Deploy Cloudformation Roles
+        id: cf-deployRoles
+        uses: aws-actions/aws-cloudformation-github-deploy@v1
+        if: github.event.commits[0].message == 'roles'
+        with:
+          name: myStackRoles
+          template: https://thanos-templates-cf.s3.amazonaws.com/templates/vpc.yaml
+          no-fail-on-empty-changeset: "1"
 
       
       # - uses: mdecoleman/cloudformation-changeset@v1

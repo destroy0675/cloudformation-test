@@ -234,7 +234,7 @@ Resources:
               
               return {
                   'statusCode': 200,
-                  'body': json.dumps('Second transformation CF')
+                  'body': json.dumps('Third transformation CF from s3')
               }
       FunctionName:
         Ref: LambdaFuncName
